@@ -62,4 +62,11 @@ val db = DatabaseHandler(this@SlabsActivity)
         super.onStop()
         db.close()
     }
+     companion object {
+
+        fun newIntent(context: Context): Intent {
+            val intent = Intent(context, SlabsActivity::class.java)
+            return intent
+        }
+    }
 }
