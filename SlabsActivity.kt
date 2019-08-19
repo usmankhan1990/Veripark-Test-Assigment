@@ -34,18 +34,27 @@ val db = DatabaseHandler(this@SlabsActivity)
     private inner class submitButtonListener : View.OnClickListener {
         override fun onClick(view: View) {
 
-            if (edt_first_slab.text.toString().isEmpty() || edt_second_slab.text.toString().isEmpty() || edt_third_slab.toString().isEmpty()) {
+             if (edt_first_slab.text.toString().isEmpty() || edt_second_slab.text.toString().isEmpty() || edt_third_slab.toString().isEmpty()) {
                 helperMethods.messagePopUp(getString(R.string.please_input_all_values),"error",this@SlabsActivity)
                 return
             }
 
-            if (edt_first_slab.text.toString().isEmpty() || edt_second_slab.text.toString().isEmpty() || edt_third_slab.toString().isEmpty()) {
+            firstSlab  = edt_first_slab.text.toString().toInt()
+            secondSlab = edt_second_slab.text.toString().toInt()
+            thirdSlab  = edt_third_slab.text.toString().toInt()
+
+            if (secondSlab > firstSlab && secondSlab < thirdSlab) {
+
+                helperMethods.saveSlabsInDataBase(this@SlabsActivity , edt_first_slab.text.toString().toInt(), edt_second_slab.text.toString().toInt(), edt_third_slab.text.toString().toInt())
+                val intent = MainActivity.newIntent(this@SlabsActivity)
+                finish()
+                startActivity(intent)
+
+            }else{
+                helperMethods.messagePopUp(getString(R.string.slabs_input_values_error_message),"error",this@SlabsActivity)
                 return
             }
-            helperMethods.saveSlabsInDataBase(this@SlabsActivity , edt_first_slab.text.toString().toInt(), edt_second_slab.text.toString().toInt(), edt_third_slab.text.toString().toInt())
 
-            val intent = MainActivity.newIntent(this@SlabsActivity)
-            startActivity(intent)
         }
     }
 
