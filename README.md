@@ -139,3 +139,60 @@ public static double calculateBill(int unit, Context context){
         return billAmount;
     }
 ```
+
+In **HelperMethods** class, I am using following code to **Show Unit Division** as per **Slabs** from Date base for the bill.
+
+```Java
+public static String getUnitDivision(int unit, Context context){
+
+        String billDivision = "";
+        List<SlabsData> slabsDataList =  helperMethods.getSlabsData(context);
+
+        if(slabsDataList==null || slabsDataList.size()==0){
+            return "";
+        }
+
+        try {
+            if (unit > 0 && unit <= 100) {
+                billDivision = "1-100 units at @ Rs. " + slabsDataList.get(0).slabs_1_100 + " x " + unit;
+            } else if (unit > 100 && unit <= 500) {
+
+                int first100 = unit - 100;
+
+                billDivision = "1-100 units @ Rs. " + slabsDataList.get(0).slabs_1_100 + " x 100" + "\n\n101 – 500 units @ Rs. " + slabsDataList.get(0).slabs_100_500 + " x " + first100;
+
+            } else if (unit > 500) {
+
+                int first100 = unit - 100;
+
+                if (first100 > 500) {
+                    int lastSlab = first100 - 400;
+
+                    billDivision = "1-100 units @ Rs. " + slabsDataList.get(0).slabs_1_100 + "x 100" + " \n\n101 – 500 units @ Rs. " +
+                            slabsDataList.get(0).slabs_100_500 + " x 400" + "\n\n > 500 units @ Rs. " + slabsDataList.get(0).slabs_501 + " x " + lastSlab;
+                }
+            }
+        }catch (Exception exp){
+            Log.e("Unit Division Exception",exp.getMessage());
+        }
+        return billDivision;
+    }
+```
+
+In **SlabsActivity** I am saving Slab 1, Slab 2 & Slab 3 input as per Unit formula. Following code I am using for Submit button listener:
+
+```Java
+private inner class submitButtonListener : View.OnClickListener {
+        override fun onClick(view: View) {
+
+            if (edt_first_slab.text.toString().isEmpty() || edt_second_slab.text.toString().isEmpty() || edt_third_slab.toString().isEmpty()) {
+                helperMethods.messagePopUp(getString(R.string.please_input_all_values),"error",this@SlabsActivity)
+                return
+            }
+            helperMethods.saveSlabsInDataBase(this@SlabsActivity , edt_first_slab.text.toString().toInt(), edt_second_slab.text.toString().toInt(), edt_third_slab.text.toString().toInt())
+
+            val intent = MainActivity.newIntent(this@SlabsActivity)
+            startActivity(intent)
+        }
+    }
+```
