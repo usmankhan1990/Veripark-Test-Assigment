@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         btn_calculate.setOnClickListener(CalculateBtnListener())
         btn_history.setOnClickListener(HistoryBtnListener())
+        btn_settings.setOnClickListener(SettingsBtnListener())
     }
 
     /**
@@ -65,6 +66,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             val intent = HistoryActivity.newIntent(this@MainActivity, serviceNumber)
+            startActivity(intent)
+        }
+    }
+    
+    /**
+     * <p>This is click listener of Settings button</p>
+     */
+    private inner class SettingsBtnListener : View.OnClickListener {
+        override fun onClick(view: View) {
+
+            val intent = SlabsActivity.newIntent(this@MainActivity)
+            finish()
             startActivity(intent)
         }
     }
