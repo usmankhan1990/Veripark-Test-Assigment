@@ -196,3 +196,48 @@ private inner class submitButtonListener : View.OnClickListener {
         }
     }
 ```
+
+In **MainActivity** I am using following code in Calucate & History button listeners. From these listeners I am calling database functions to save and get information.
+
+```Java
+
+private inner class CalculateBtnListener : View.OnClickListener {
+        override fun onClick(view: View) {
+
+            if (edt_units.text.toString().isEmpty() || edt_service_num.text.toString().isEmpty()) {
+                helperMethods.messagePopUp(getString(R.string.please_extract_valid_input),"error",this@MainActivity)
+                return
+            }
+
+            var units = Integer.parseInt(edt_units.text.toString())
+            val serviceNumber = edt_service_num.text.toString()
+
+            val billAmount = BillCalculator.calculateBill(units, this@MainActivity)
+            val unitDivision = BillCalculator.getUnitDivision(units, this@MainActivity)
+
+            txtCalculatedAmount.text = "Total Cost: Rs. "+java.lang.Double.toString(billAmount)
+            txtBillDivision.text = unitDivision
+            helperMethods.saveConsumerDataInDataBase(this@MainActivity, serviceNumber, units.toString(), billAmount.toString())
+        }
+    }
+
+    /**
+     * <p>This is click listener of history button</p>
+     */
+    private inner class HistoryBtnListener : View.OnClickListener {
+        override fun onClick(view: View) {
+
+            val serviceNumber = edt_service_num.text.toString()
+
+            if (serviceNumber.isEmpty()) {
+                helperMethods.messagePopUp(getString(R.string.please_input_service_number),"error",this@MainActivity)
+                return
+            }
+
+            val intent = HistoryActivity.newIntent(this@MainActivity, serviceNumber)
+            startActivity(intent)
+        }
+    }
+    
+```    
+
