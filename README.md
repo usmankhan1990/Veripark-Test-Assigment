@@ -241,3 +241,12 @@ private inner class CalculateBtnListener : View.OnClickListener {
     
 ```    
 
+## Gradle Links
+
+I am using following library for showing customised Pop Ups and dialogs:
+
+``` 
+implementation 'cn.ziyeyouhu.android:sweet-alert-dialog:1.0'
+
+```
+
