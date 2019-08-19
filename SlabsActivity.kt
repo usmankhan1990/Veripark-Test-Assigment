@@ -11,8 +11,11 @@ import kotlinx.android.synthetic.main.activity_slabs.*
 
 class SlabsActivity : AppCompatActivity(){
 
-    val db = DatabaseHandler(this@SlabsActivity)
+val db = DatabaseHandler(this@SlabsActivity)
     var helperMethods = HelperMethods.getInstance()
+    var firstSlab  = 0
+    var secondSlab = 0
+    var thirdSlab  = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
